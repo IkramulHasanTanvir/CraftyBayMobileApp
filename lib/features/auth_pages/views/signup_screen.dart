@@ -118,23 +118,6 @@ class _SignupScreenState extends State<SignupScreen> {
           SizedBox(height: 8.h),
           TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _mobileTEController,
-            keyboardType: TextInputType.phone,
-            maxLength: 11,
-            decoration: const InputDecoration(hintText: 'Mobile'),
-            validator: (String? value) {
-              if (value?.trim().isEmpty ?? true) {
-                return 'Enter your mobile number';
-              }
-              if (RegExp(r'^01[3-9]\d{8}$').hasMatch(value!) == false) {
-                return 'Enter valid mobile number';
-              }
-              return null;
-            },
-          ),
-          SizedBox(height: 8.h),
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             controller: _cityTEController,
             decoration: const InputDecoration(hintText: 'City'),
             validator: (String? value) {
@@ -152,6 +135,23 @@ class _SignupScreenState extends State<SignupScreen> {
             validator: (String? value) {
               if ((value?.isEmpty ?? true) || value!.length < 6) {
                 return 'Enter a password more than 8 letters';
+              }
+              return null;
+            },
+          ),
+          SizedBox(height: 8.h),
+          TextFormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            controller: _mobileTEController,
+            keyboardType: TextInputType.phone,
+            maxLength: 11,
+            decoration: const InputDecoration(hintText: 'Mobile'),
+            validator: (String? value) {
+              if (value?.trim().isEmpty ?? true) {
+                return 'Enter your mobile number';
+              }
+              if (RegExp(r'^01[3-9]\d{8}$').hasMatch(value!) == false) {
+                return 'Enter valid mobile number';
               }
               return null;
             },
