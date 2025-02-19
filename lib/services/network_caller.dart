@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:crafty_bay/services/network_response.dart';
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
