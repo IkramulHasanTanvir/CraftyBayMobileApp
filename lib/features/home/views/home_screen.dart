@@ -1,6 +1,5 @@
 import 'package:crafty_bay/app/utils/app_loading.dart';
 import 'package:crafty_bay/app/utils/assets_paths.dart';
-import 'package:crafty_bay/common/product_item_widget.dart';
 import 'package:crafty_bay/features/bottom_nav/controller/bottom_nav_controller.dart';
 import 'package:crafty_bay/features/home/controller/slider_list_controller.dart';
 import 'package:crafty_bay/features/home/views/widgets/app_bar_icon_button.dart';
