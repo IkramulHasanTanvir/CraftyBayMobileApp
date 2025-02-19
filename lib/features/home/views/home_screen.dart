@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {},
               ),
               const SizedBox(height: 8),
-              SingleChildScrollView(
+              const SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [],
@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {},
               ),
               const SizedBox(height: 8),
-              SingleChildScrollView(
+              const SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [],
