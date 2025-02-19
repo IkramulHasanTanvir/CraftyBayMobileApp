@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:crafty_bay/services/network_response.dart';
+import 'package:crafty_bay/services/user_data_controller.dart';
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 
@@ -9,8 +10,12 @@ class NetworkCaller {
       Uri uri = Uri.parse(url);
 
       Logger().d(url);
+      Map<String,String> headers = {
+        "Content-Type" : "application/json",
+        "token" : UserDataController.accessToken.toString(),
+      };
 
-      Response response = await get(uri);
+      Response response = await get(uri,headers: headers);
 
       final decodeBody = jsonDecode(response.body);
 
@@ -42,6 +47,7 @@ class NetworkCaller {
 
       Map<String,String> headers = {
         "Content-Type" : "application/json",
+        "token" : UserDataController.accessToken.toString(),
       };
 
       final encodeBody = jsonEncode(body);
