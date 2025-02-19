@@ -1,3 +1,4 @@
+import 'package:crafty_bay/app/binding/app_initial_binding.dart';
 import 'package:crafty_bay/routes/route_pages.dart';
 import 'package:crafty_bay/theme/theme_data.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class CraftyBay extends StatelessWidget {
     return ScreenUtilInit(
       builder: (_,__) {
         return GetMaterialApp(
+          initialBinding: AppInitialBinding(),
           debugShowCheckedModeBanner: false,
           initialRoute: RoutePages.initialRoute,
           onGenerateRoute: RoutePages.onGenerateRoute,

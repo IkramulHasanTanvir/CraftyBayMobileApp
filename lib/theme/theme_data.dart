@@ -1,10 +1,11 @@
-import 'package:crafty_bay/theme/utils/utils.dart';
+import 'package:crafty_bay/theme/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppThemeData {
   /// Light theme set.
   static ThemeData get lightTheme => ThemeData(
+      fontFamily: 'Poppins',
       colorSchemeSeed: primaryColor,
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: primaryColor,

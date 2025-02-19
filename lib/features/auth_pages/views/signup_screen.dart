@@ -1,10 +1,14 @@
+import 'package:crafty_bay/app/utils/app_loading.dart';
+import 'package:crafty_bay/features/auth_pages/controller/sing_up_controller.dart';
+import 'package:crafty_bay/features/auth_pages/models/sing_up_params.dart';
 import 'package:crafty_bay/features/auth_pages/views/widgets/app_logo_widget.dart';
 import 'package:crafty_bay/routes/route_name.dart';
-import 'package:crafty_bay/theme/utils/utils.dart';
-import 'package:email_validator/email_validator.dart';
+import 'package:crafty_bay/theme/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:get/get.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -21,6 +25,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final SingUpController _singUpController = Get.find<SingUpController>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +45,15 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               SizedBox(height: 24.h),
               _buildForm(),
-              ElevatedButton(
-                onPressed: _signUp,
-                child: const Text('Sign Up'),
-              ),
+              GetBuilder<SingUpController>(builder: (controller) {
+                if (controller.inProgress) {
+                  return const CustomAppLoading();
+                }
+                return ElevatedButton(
+                  onPressed: _signUp,
+                  child: const Text('Sign Up'),
+                );
+              }),
               SizedBox(height: 16.h),
               RichText(
                 text: TextSpan(
@@ -78,67 +88,40 @@ class _SignupScreenState extends State<SignupScreen> {
       child: Column(
         children: [
           TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _emailTEController,
-            decoration: const InputDecoration(hintText: 'Email'),
-            validator: (String? value) {
-              if (value?.trim().isEmpty ?? true) {
-                return 'Enter your email address';
-              }
-              if (EmailValidator.validate(value!) == false) {
-                return 'Enter a valid email address';
-              }
-              return null;
-            },
-          ),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: _emailTEController,
+              decoration: const InputDecoration(hintText: 'Email'),
+              validator:
+                  EmailValidator(errorText: 'Enter your valid email').call),
           SizedBox(height: 8.h),
           TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _firstNameTEController,
-            decoration: const InputDecoration(hintText: 'First Name'),
-            validator: (String? value) {
-              if (value?.trim().isEmpty ?? true) {
-                return 'Enter valid your first name';
-              }
-              return null;
-            },
-          ),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: _firstNameTEController,
+              decoration: const InputDecoration(hintText: 'First Name'),
+              validator:
+                  RequiredValidator(errorText: 'Enter your first name').call),
           SizedBox(height: 8.h),
           TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _lastNameTEController,
-            decoration: const InputDecoration(hintText: 'Last Name'),
-            validator: (String? value) {
-              if (value?.trim().isEmpty ?? true) {
-                return 'Enter your last name';
-              }
-              return null;
-            },
-          ),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: _lastNameTEController,
+              decoration: const InputDecoration(hintText: 'Last Name'),
+              validator:
+                  RequiredValidator(errorText: 'Enter your last name').call),
           SizedBox(height: 8.h),
           TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _cityTEController,
-            decoration: const InputDecoration(hintText: 'City'),
-            validator: (String? value) {
-              if (value?.trim().isEmpty ?? true) {
-                return 'Enter valid city';
-              }
-              return null;
-            },
-          ),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: _cityTEController,
+              decoration: const InputDecoration(hintText: 'City'),
+              validator:
+                  RequiredValidator(errorText: 'Enter your city name').call),
           SizedBox(height: 8.h),
           TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _passwordTEController,
-            decoration: const InputDecoration(hintText: 'Password'),
-            validator: (String? value) {
-              if ((value?.isEmpty ?? true) || value!.length < 6) {
-                return 'Enter a password more than 8 letters';
-              }
-              return null;
-            },
-          ),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: _passwordTEController,
+              decoration: const InputDecoration(hintText: 'Password'),
+              validator: MinLengthValidator(6,
+                      errorText: 'password minimum 6 character')
+                  .call),
           SizedBox(height: 8.h),
           TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -162,8 +145,29 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  void _signUp() {
-    if (_formKey.currentState!.validate()) {}
+  void _signUp() async {
+    if (_formKey.currentState!.validate()) {
+      final params = SingUpParams(
+        firstName: _firstNameTEController.text.trim(),
+        lastName: _lastNameTEController.text.trim(),
+        email: _emailTEController.text.trim(),
+        password: _passwordTEController.text,
+        phone: _mobileTEController.text.trim(),
+        city: _cityTEController.text.trim(),
+      );
+
+      bool success = await _singUpController.signUp(params);
+      if (success && mounted) {
+        Navigator.pushNamedAndRemoveUntil(
+            context,
+            RouteName.otpScreen,
+            arguments: _emailTEController.text.trim(),
+            (_) => false);
+        Get.snackbar('Success', _singUpController.successMgs);
+      } else {
+        Get.snackbar('failed', _singUpController.errorMgs);
+      }
+    }
   }
 
   @override
@@ -173,6 +177,7 @@ class _SignupScreenState extends State<SignupScreen> {
     _mobileTEController.dispose();
     _cityTEController.dispose();
     _emailTEController.dispose();
+    _passwordTEController.dispose();
     super.dispose();
   }
 }

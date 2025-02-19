@@ -21,7 +21,8 @@ class RoutePages {
     } else if (settings.name == RouteName.forgotEmailScreen) {
       widget = const ForgotEmailScreen();
     } else if (settings.name == RouteName.otpScreen) {
-      widget = const OtpScreen();
+      String email = settings.arguments as String;
+      widget = OtpScreen(email: email);
     } else if (settings.name == RouteName.changePassScreen) {
       widget = const ChangePassScreen();
     } else if (settings.name == RouteName.mainBottomNav) {

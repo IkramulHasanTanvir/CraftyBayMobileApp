@@ -1,10 +1,13 @@
+import 'package:crafty_bay/app/utils/app_loading.dart';
+import 'package:crafty_bay/features/auth_pages/controller/login_controller.dart';
 import 'package:crafty_bay/features/auth_pages/views/widgets/app_logo_widget.dart';
 import 'package:crafty_bay/routes/route_name.dart';
-import 'package:crafty_bay/theme/utils/utils.dart';
-import 'package:email_validator/email_validator.dart';
+import 'package:crafty_bay/theme/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final LoginController _loginController = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,40 +40,36 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 24.h),
                 TextFormField(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  controller: _emailTEController,
-                  decoration: const InputDecoration(hintText: 'Email Address'),
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  validator: (String? value) {
-                    if (value?.trim().isEmpty ?? true) {
-                      return 'Enter your email address';
-                    }
-                    if (EmailValidator.validate(value!) == false) {
-                      return 'Enter a valid email address';
-                    }
-                    return null;
-                  },
-                ),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    controller: _emailTEController,
+                    decoration:
+                        const InputDecoration(hintText: 'Email Address'),
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    validator:
+                        EmailValidator(errorText: 'Enter your valid email')
+                            .call),
                 SizedBox(height: 8.h),
                 TextFormField(
-                  obscureText: true,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  controller: _passwordTEController,
-                  decoration: const InputDecoration(hintText: 'Password'),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (String? value) {
-                    if (value?.isEmpty ?? true) {
-                      return 'Enter your password';
-                    }
-                    return null;
-                  },
-                ),
+                    obscureText: true,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    controller: _passwordTEController,
+                    decoration: const InputDecoration(hintText: 'Password'),
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.go,
+                    validator: MinLengthValidator(6,
+                            errorText: 'password minimum 6 character')
+                        .call),
                 SizedBox(height: 16.h),
-                ElevatedButton(
-                  onPressed: _onTapNextButton,
-                  child: const Text('Sign In'),
-                ),
+                GetBuilder<LoginController>(builder: (controller) {
+                  if (controller.inProgress) {
+                    return const CustomAppLoading();
+                  }
+                  return ElevatedButton(
+                    onPressed: _onTapNextButton,
+                    child: const Text('Sign In'),
+                  );
+                }),
                 SizedBox(height: 16.h),
                 RichText(
                   text: TextSpan(
@@ -99,8 +99,19 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _onTapNextButton() {
-    if (_formKey.currentState!.validate()) {}
+  void _onTapNextButton() async {
+    if (_formKey.currentState!.validate()) {
+      bool success = await _loginController.login(
+        _emailTEController.text.trim(),
+        _passwordTEController.text,
+      );
+      if (success && mounted) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, RouteName.mainBottomNav, (_) => false);
+      } else {
+        Get.snackbar('failed', _loginController.errorMgs);
+      }
+    }
   }
 
   @override
