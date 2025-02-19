@@ -5,7 +5,7 @@ import 'package:crafty_bay/features/bottom_nav/controller/bottom_nav_controller.
 import 'package:crafty_bay/features/home/controller/slider_list_controller.dart';
 import 'package:get/get.dart';
 
-class AppInitialBinding extends Bindings{
+class AppBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(LoginController());
@@ -14,5 +14,4 @@ class AppInitialBinding extends Bindings{
     Get.put(BottomNavController());
     Get.put(SliderListController());
   }
-
 }
