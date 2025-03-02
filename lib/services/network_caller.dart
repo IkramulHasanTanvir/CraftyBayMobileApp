@@ -7,6 +7,8 @@ import 'package:logger/logger.dart';
 class NetworkCaller {
   Future<NetworkResponse> getRequest(String url) async {
     try {
+
+
       Uri uri = Uri.parse(url);
 
       Logger().d(url);

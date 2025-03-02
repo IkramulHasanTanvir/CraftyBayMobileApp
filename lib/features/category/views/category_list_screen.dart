@@ -2,27 +2,24 @@ import 'package:crafty_bay/app/utils/app_loading.dart';
 import 'package:crafty_bay/common/category_item_widget.dart';
 import 'package:crafty_bay/features/bottom_nav/controller/bottom_nav_controller.dart';
 import 'package:crafty_bay/features/category/controller/category_controller.dart';
+import 'package:crafty_bay/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CategoryListScreen extends StatefulWidget {
   const CategoryListScreen({super.key});
 
-  static const String name = '/category-list-screen';
 
   @override
   State<CategoryListScreen> createState() => _CategoryListScreenState();
 }
 
 class _CategoryListScreenState extends State<CategoryListScreen> {
-  final CategoryController _categoryListController =
-  Get.find<CategoryController>();
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _categoryListController.getCategoryList();
   }
 
 
@@ -60,7 +57,18 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                     itemBuilder: (context, index) {
                       return FittedBox(
                         child: CategoryItemWidget(
-                          categoriesData: controller.categoryList[index],
+                          categoriesData: controller.categoryList[index], onTap: () {
+                          Navigator.pushNamed(
+                              context, RouteName.productScreen,
+                              arguments: {
+                                'categoryName':
+                                controller.categoryList[index].title ??
+                                    '',
+                                'categoryId':
+                                controller.categoryList[index].sId ?? ''
+                              });
+
+                        },
                         ),
                       );
                     },

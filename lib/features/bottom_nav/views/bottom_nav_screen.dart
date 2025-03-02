@@ -1,9 +1,12 @@
 import 'package:crafty_bay/features/bottom_nav/controller/bottom_nav_controller.dart';
+import 'package:crafty_bay/features/cart/controller/cart_controller.dart';
 import 'package:crafty_bay/features/cart/views/cart_list_screen.dart';
 import 'package:crafty_bay/features/category/controller/category_controller.dart';
 import 'package:crafty_bay/features/category/views/category_list_screen.dart';
 import 'package:crafty_bay/features/home/controller/slider_list_controller.dart';
 import 'package:crafty_bay/features/home/views/home_screen.dart';
+import 'package:crafty_bay/features/products/controller/product_controller.dart';
+import 'package:crafty_bay/features/wish_list/controller/wish_list_controller.dart';
 import 'package:crafty_bay/features/wish_list/views/wish_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,14 +23,17 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   void initState() {
     super.initState();
     Get.find<SliderListController>().getSliderList();
-    //Get.find<CategoryController>().getCategoryList();
+    Get.find<CategoryController>().getCategoryList();
+    Get.find<ProductController>().getProductList();
+    Get.find<WishListController>().getWishList();
+    Get.find<CartController>().getCartList();
   }
 
-  final List<Widget> _screens = const [
-    HomeScreen(),
-    CategoryListScreen(),
-    CartListScreen(),
-    WishListScreen(),
+  final List<Widget> _screens = [
+    const HomeScreen(),
+    const CategoryListScreen(),
+    const CartScreen(),
+    const WishListScreen(),
   ];
 
   @override

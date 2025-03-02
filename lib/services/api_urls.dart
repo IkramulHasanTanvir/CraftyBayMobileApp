@@ -5,4 +5,7 @@ class ApiUrls {
   static const String verifyOTP = '$_baseUrl/auth/verify-otp';
   static const String slides = '$_baseUrl/slides';
   static const String categories = '$_baseUrl/categories';
+  static const String products = '$_baseUrl/products';
+  static const String wishList = '$_baseUrl/wishlist';
+  static const String cartList = '$_baseUrl/cart';
 }

@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 
 class CategoryItemWidget extends StatelessWidget {
   const CategoryItemWidget({
-    super.key, required this.categoriesData,
+    super.key, required this.categoriesData, required this.onTap,
   });
 
   final CategoryData categoriesData;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-      },
+      onTap: onTap,
       child: Column(
         children: [
           Container(
