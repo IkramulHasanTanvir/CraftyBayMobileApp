@@ -1,30 +1,31 @@
-import 'package:crafty_bay/features/home/models/slider_list_model.dart';
+import 'package:crafty_bay/features/category/models/caregory_model.dart';
 import 'package:crafty_bay/services/api_urls.dart';
 import 'package:crafty_bay/services/network_caller.dart';
 import 'package:crafty_bay/services/network_response.dart';
 import 'package:get/get.dart';
 
-class SliderListController extends GetxController {
+class CategoryController extends GetxController {
   bool _inProgress = false;
   String _errorMsg = '';
 
-  List<SliderData> _sliderList = [];
+  List<CategoryData> _categoryList = [];
 
   bool get inProgress => _inProgress;
 
   String get errorMsg => _errorMsg;
 
-  List<SliderData> get sliderList => _sliderList;
+  List<CategoryData> get categoryList => _categoryList;
 
-  Future<bool> getSliderList() async {
+  Future<bool> getCategoryList() async {
     _inProgress = true;
     update();
-    NetworkResponse response = await NetworkCaller().getRequest(ApiUrls.slides);
+    NetworkResponse response =
+        await NetworkCaller().getRequest(ApiUrls.categories);
 
     if (response.isSuccess) {
-      SliderModel sliderListModel =
-          SliderModel.fromJson(response.responseBody);
-      _sliderList = sliderListModel.data?.results ?? [];
+      CategoryModel categoryModel =
+          CategoryModel.fromJson(response.responseBody);
+      _categoryList = categoryModel.data?.categoryList ?? [];
     } else {
       _errorMsg = response.errorMessage;
     }

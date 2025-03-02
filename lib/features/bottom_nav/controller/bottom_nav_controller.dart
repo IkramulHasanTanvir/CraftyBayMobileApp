@@ -13,4 +13,9 @@ class BottomNavController extends GetxController {
     _selectedIndex = 1;
     update();
   }
+
+  void moveToHome() {
+    _selectedIndex = 0;
+    update();
+  }
 }

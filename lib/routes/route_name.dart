@@ -6,4 +6,5 @@ class RouteName {
   static const String otpScreen = '/otpScreen';
   static const String changePassScreen = '/changePassScreen';
   static const String mainBottomNav = '/mainBottomNav';
+  static const String productScreen = '/productScreen';
 }

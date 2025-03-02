@@ -20,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchBarController = TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

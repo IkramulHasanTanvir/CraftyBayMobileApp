@@ -1,4 +1,5 @@
 import 'package:crafty_bay/common/models/product_model.dart';
+import 'package:crafty_bay/features/category/models/caregory_model.dart';
 import 'package:crafty_bay/theme/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,7 @@ class CategoryItemWidget extends StatelessWidget {
     super.key, required this.categoriesData,
   });
 
-  final CategoriesData categoriesData;
+  final CategoryData categoriesData;
 
   @override
   Widget build(BuildContext context) {

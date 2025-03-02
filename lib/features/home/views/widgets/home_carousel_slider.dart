@@ -81,15 +81,15 @@ class _HomeCarouselSliderState extends State<HomeCarouselSlider> {
               children: [
                 for (int i = 0; i < widget.sliderList.length; i++)
                   Container(
-                    width: 16,
-                    height: 16,
+                    width: 14,
+                    height: 14,
                     margin: const EdgeInsets.symmetric(horizontal: 2),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: value == i
                           ? primaryColor
                           : Colors.transparent,
-                      border: Border.all(color: Colors.grey.shade300),
+                      border: Border.all(color: Colors.grey),
                     ),
                   ),
               ],

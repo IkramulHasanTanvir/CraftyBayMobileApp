@@ -5,6 +5,7 @@ import 'package:crafty_bay/features/auth_pages/views/otp_screen.dart';
 import 'package:crafty_bay/features/auth_pages/views/signup_screen.dart';
 import 'package:crafty_bay/features/bottom_nav/views/bottom_nav_screen.dart';
 import 'package:crafty_bay/features/into_pages/views/spalsh_screen.dart';
+import 'package:crafty_bay/features/products/product_screen.dart';
 import 'package:crafty_bay/routes/route_name.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +29,9 @@ class RoutePages {
       widget = const ChangePassScreen();
     } else if (settings.name == RouteName.mainBottomNav) {
       widget = const BottomNavScreen();
+    }else if (settings.name == RouteName.productScreen) {
+      Map<String, dynamic> args = settings.arguments as Map<String, dynamic>;
+      widget =  ProductScreen(categoryName: args['categoryName'], categoryId: args['categoryId']);
     }
     return MaterialPageRoute(
       builder: (ctx) {

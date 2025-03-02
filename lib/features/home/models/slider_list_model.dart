@@ -10,21 +10,31 @@ class SliderModel {
     code = json['code'];
     status = json['status'];
     msg = json['msg'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['code'] = this.code;
+    data['status'] = this.status;
+    data['msg'] = this.msg;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    return data;
+  }
 }
 
 class Data {
-  List<SliderData>? sliders;
+  List<SliderData>? results;
   int? total;
-  int? firstPage;
-  int? previous;
+  Null? firstPage;
+  Null? previous;
   int? next;
   int? lastPage;
 
   Data(
-      {this.sliders,
+      {this.results,
         this.total,
         this.firstPage,
         this.previous,
@@ -33,9 +43,9 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['results'] != null) {
-      sliders = <SliderData>[];
+      results = <SliderData>[];
       json['results'].forEach((v) {
-        sliders!.add(SliderData.fromJson(v));
+        results!.add(new SliderData.fromJson(v));
       });
     }
     total = json['total'];
@@ -45,6 +55,18 @@ class Data {
     lastPage = json['last_page'];
   }
 
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.results != null) {
+      data['results'] = this.results!.map((v) => v.toJson()).toList();
+    }
+    data['total'] = this.total;
+    data['first_page'] = this.firstPage;
+    data['previous'] = this.previous;
+    data['next'] = this.next;
+    data['last_page'] = this.lastPage;
+    return data;
+  }
 }
 
 class SliderData {
@@ -53,7 +75,7 @@ class SliderData {
   String? description;
   String? product;
   String? brand;
-  int? category;
+  Null? category;
   String? createdAt;
   String? updatedAt;
   int? iV;
@@ -79,5 +101,19 @@ class SliderData {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['photo_url'] = this.photoUrl;
+    data['description'] = this.description;
+    data['product'] = this.product;
+    data['brand'] = this.brand;
+    data['category'] = this.category;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    return data;
   }
 }
