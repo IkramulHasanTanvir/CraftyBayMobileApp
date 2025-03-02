@@ -8,4 +8,8 @@ class ApiUrls {
   static const String products = '$_baseUrl/products';
   static const String wishList = '$_baseUrl/wishlist';
   static const String cartList = '$_baseUrl/cart';
+  static const String brandList = '$_baseUrl/brands';
+  static const String reviewList = '$_baseUrl/reviews';
+  static const String orders = '$_baseUrl/orders';
+  static const String order = '$_baseUrl/order';
 }
